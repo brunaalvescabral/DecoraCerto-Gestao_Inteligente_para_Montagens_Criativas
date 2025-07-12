@@ -1,43 +1,100 @@
-# DecoraCerto-Gestao_Inteligente_para_Montagens_Criativas
-# SISTEMA PEGUE E MONTE
+# DecoraCerto – GIMC  
+**Gestão Inteligente para Montagens Criativas**
 
+---
 
-## Descrição geral do sistema
-Esta seção descreve os usuários do sistema e fornece uma visão geral do sistema Pegue e 
-Monte. 
-___
+## 📌 Visão Geral do Projeto
 
-## Usuário
+O **DecoraCerto – GIMC** é um sistema desenvolvido para facilitar o dia a dia de empresas de decoração que trabalham com **locação de kits do tipo "Pegue e Monte"** para festas e eventos. A plataforma centraliza o controle de kits, aluguel, finanças e agendamentos, tudo de forma simples, intuitiva e online. Além disso, oferece aos **clientes finais** uma experiência prática e direta, permitindo **visualizar kits, escolher datas e reservar pela plataforma**.
 
-O sistema possuirá dois tipos de usuários: ativos e passivos. 
+---
 
-O usuário ativo(s) será o(s) administrador(es), ator que gerenciará o software tendo acesso a 
-todas as funcionalidades do sistema, enquanto os usuários passivos serão os servidores, 
-colaboradores e clientes da organização.
-___
+## 🚨 Motivação e Problema Identificado
 
-## Visão geral do sistema  
+Muitos pequenos empreendedores do ramo de decoração enfrentam dificuldades na organização de pedidos, controle de estoque, precificação e acompanhamento financeiro. Grande parte ainda depende de cadernos ou planilhas, o que gera falhas e perda de tempo.
 
-Mediante as dificuldades enfrentadas por empresas de decoração, do tipo Pegue e Monte, no 
-controle dos kits de decoração disponibilizados pela empresa e organização financeira da 
-mesma, foi identificado a necessidade de desenvolver um software que auxilie na gestão dos 
-itens e controle financeiro, de forma prática e eficiente. 
-Diante disso, os estudantes do quarto semestre do curso superior em Gestão da Tecnologia da 
-Informação, propõem o desenvolvimento de um sistema de gerenciamento de kits de 
-decoração do tipo “Pegue e Monte”, no qual os colaboradores poderão visualizar os kits, 
-faturar o aluguel, gerar relatórios financeiros gerenciar entrada fiscal, e etc, e os clientes 
-poderão visualizar os kits disponíveis, agendar o empréstimo de acordo com a data do evento 
-diretamente pela plataforma. 
-O sistema “Pegue e Monte” funcionará, portanto, como uma plataforma centralizada para a 
-organização e automação da logística de reservas e finanças, aumentando a confiabilidade 
-e agilidade nos processos dos serviços.
-___
+---
 
-## 📚 Links solicitados
-- [Trello](https://trello.com/invite/b/681fe46994c6170f6882711a/ATTId8efd6860cca851d0c686e57ee2db15071BB7BFB/projeto-engenharia-de-software)
-- [Github](https://github.com/brunaalvescabral/DecoraCerto-Gestao_Inteligente_para_Montagens_Criativas)
+## 🎯 Objetivo do Sistema
 
-## 💻 Documentos solicitados
-- [Apresentação em slides](https://drive.google.com/file/d/11bRIo86oyMN7iA7FR7irOyXW1pDOPTim/view?usp=drive_link)
+O sistema foi criado para:
 
-- [Documento de requisitos](https://drive.google.com/file/d/1VUg9Uv0c6kc5WA7QbBxe4k9g0aHLUw6x/view?usp=drive_link)
+- Gerenciar pedidos e reservas de kits
+- Controlar estoque e aluguéis
+- Facilitar o cadastro de clientes e kits
+- Emitir orçamentos e termos de compromisso
+- Registrar contas a pagar/receber
+- Acompanhar o desempenho financeiro do negócio
+- Melhorar a organização e a autonomia dos empreendedores
+
+---
+
+## 📁 Documentos Importantes
+
+📎 *Adicione aqui os documentos ou links externos (Google Drive, GitHub, etc.):*
+
+- 📄 [Documento de Requisitos](https://drive.google.com/file/d/1VUg9Uv0c6kc5WA7QbBxe4k9g0aHLUw6x/view?usp=drive_link)
+- 🖼️ [Apresentação em Slides](https://drive.google.com/file/d/11bRIo86oyMN7iA7FR7irOyXW1pDOPTim/view?usp=drive_link)
+
+---
+
+## 🔗 Links Úteis
+
+- 🗂️ [GitHub do Projeto](https://github.com/brunaalvescabral/DecoraCerto-Gestao_Inteligente_para_Montagens_Criativas.git)
+- 📌 [Quadro no Trello](https://trello.com/invite/b/681fe46994c6170f6882711a/ATTId8efd6860cca851d0c686e57ee2db15071BB7BFB/projeto-engenharia-de-software)
+
+---
+
+## 👨‍💻 Equipe do Projeto
+
+Integrantes (ordem alfabética):
+
+- Alexissandro de Souza Carvalho
+- Bruna Alves Cabral
+- Élida de Melo Guedes
+- Hanna Karennina Araujo Pinheiro Braga
+- Luana Feitosa dos Santos  
+
+---
+
+## 💼 Tecnologias e Ferramentas
+
+- 📌 UML (Modelagem de Casos de Uso)
+- 📋 Histórias de Usuário (Metodologia Ágil)
+- 🖥️ Git, GitHub, Visual Studio Code, Xampp, MySQL
+- ✅ Trello (Kanban de tarefas)
+
+---
+
+## 👥 Stakeholders
+
+| Tipo                  | Descrição                                                                 |
+|-----------------------|---------------------------------------------------------------------------|
+| **Usuários principais** | Pequenos empreendedores, artesãos, produtores de kits e lembrancinhas     |
+| **Usuários indiretos**  | Clientes finais atendidos pelos decoradores/artesãos                      |
+| **Equipe do projeto**   | Responsável pelo levantamento, análise, desenvolvimento e testes do sistema |
+
+---
+
+## 🧭 Tipos de Usuários
+
+O sistema possui dois tipos de usuários:
+
+- **Usuário Ativo (Administrador):** Acessa todas as funcionalidades e faz a gestão completa.
+- **Usuários Passivos (Colaboradores e Clientes):** 
+  - Colaboradores: usam o sistema para tarefas específicas (vendas, caixa, estoque).
+  - Clientes: visualizam kits e realizam reservas.
+
+---
+
+## 🎯 Funcionalidades e Indicadores de Desempenho
+
+### Funcionalidades principais:
+
+- Cadastro de clientes, colaboradores e kits
+- Agendamento de eventos com controle de entrada e devolução
+- Emissão e assinatura de termos de compromisso
+- Gerenciamento financeiro:
+  - Contas a pagar e a receber
+  - Emissão de recibos e controle de notas fiscais
+  - Relatórios financeiros
