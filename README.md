@@ -38,6 +38,6 @@ ___
 - [Github](https://github.com/brunaalvescabral/DecoraCerto-Gestao_Inteligente_para_Montagens_Criativas)
 
 ## 💻 Documentos solicitados
-- [Apresentação em slides](file:///C:/Users/%C3%89lida%20Guedes/Downloads/Apresenta%C3%A7%C3%A3o%20engenharia%20de%20software-%20sistema%20pegue%20e%20monte.pdf)
+- [Apresentação em slides](https://drive.google.com/file/d/11bRIo86oyMN7iA7FR7irOyXW1pDOPTim/view?usp=drive_link)
 
-- [Documento de requisitos](file:///C:/Users/%C3%89lida%20Guedes/Downloads/Documento%20de%20requisitos%20do%20sistema%20Pegue%20e%20Monte.pdf)
+- [Documento de requisitos](https://drive.google.com/file/d/1VUg9Uv0c6kc5WA7QbBxe4k9g0aHLUw6x/view?usp=drive_link)
