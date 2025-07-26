@@ -156,7 +156,7 @@ $result = mysqli_query($conn, $query);
     <table>
         <thead>
             <tr>
-                <th>Descrição</th>
+                <th>Nome</th>
                 <th>Valor Investido</th>
                 <th>Data do Investimento</th>
                 <th>Status</th>
@@ -166,7 +166,7 @@ $result = mysqli_query($conn, $query);
             <?php if (mysqli_num_rows($result) > 0): ?>
                 <?php while ($row = mysqli_fetch_assoc($result)) : ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['descricao']) ?></td>
+                        <td><?= htmlspecialchars($row['nome']) ?></td>
                         <td>R$ <?= number_format($row['valor_investido'], 2, ',', '.') ?></td>
                         <td><?= date('d/m/Y', strtotime($row['data_investimento'])) ?></td>
                         <td><?= htmlspecialchars($row['status']) ?></td>

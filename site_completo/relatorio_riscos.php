@@ -153,8 +153,7 @@ $result = mysqli_query($conn, $query);
         <thead>
             <tr>
                 <th>Descrição do Risco</th>
-                <th>Impacto</th>
-                <th>Probabilidade</th>
+                <th>Impacto estimado</th>
                 <th>Data Detectada</th>
             </tr>
         </thead>
@@ -163,9 +162,8 @@ $result = mysqli_query($conn, $query);
                 <?php while ($row = mysqli_fetch_assoc($result)) : ?>
                     <tr>
                         <td><?= htmlspecialchars($row['descricao']) ?></td>
-                        <td><?= htmlspecialchars($row['impacto']) ?></td>
-                        <td><?= htmlspecialchars($row['probabilidade']) ?></td>
-                        <td><?= date('d/m/Y', strtotime($row['data_detectada'])) ?></td>
+                        <td><?= htmlspecialchars($row['impacto_estimado']) ?></td>
+                        <td><?= date('d/m/Y', strtotime($row['data_registro'])) ?></td>
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>

@@ -5,173 +5,197 @@ include 'conexao.php';
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Relatórios Financeiros</title>
-    <style>
-        /* Reset básico */
-        * {
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <title>Relatórios Financeiros</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f7f8;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #2c3e50;
+    }
 
-        .container {
-            max-width: 900px;
-            background: #fff;
-            margin: 40px auto;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
+    header {
+      background: linear-gradient(90deg, #7A5FFF, #00C16E);
+      color: #fff;
+      padding: 25px 40px;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(122, 95, 255, 0.3);
+    }
 
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-weight: 700;
-            letter-spacing: 1.2px;
-        }
+    .container {
+      max-width: 950px;
+      background: white;
+      margin: 50px auto;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
 
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 35px;
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 32px;
+      color: #333;
+    }
 
-        label {
-            display: flex;
-            flex-direction: column;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: #555;
-            min-width: 140px;
-        }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
 
-        input[type="date"] {
-            padding: 8px 12px;
-            font-size: 1rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            transition: border-color 0.3s;
-        }
-        input[type="date"]:focus {
-            border-color: #3498db;
-            outline: none;
-        }
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #555;
+      min-width: 180px;
+    }
 
-        button {
-            padding: 10px 25px;
-            font-size: 1rem;
-            font-weight: 700;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            align-self: flex-end;
-            margin-left: 10px;
-            min-width: 130px;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
+    input[type="date"] {
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+    }
 
-        p {
-            text-align: center;
-            font-size: 1.1rem;
-            color: #444;
-            margin-bottom: 30px;
-        }
+    input[type="date"]:focus {
+      border-color: #7A5FFF;
+      outline: none;
+    }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            max-width: 500px;
-            margin: 0 auto;
-        }
+    button {
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #7A5FFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 25px;
+      min-width: 160px;
+    }
 
-        ul li {
-            background-color: #ecf0f1;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            transition: background-color 0.3s;
-        }
+    button:hover {
+      background-color: #5d4bd9;
+    }
 
-        ul li:hover {
-            background-color: #d1e7f5;
-        }
+    p.info {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #555;
+      margin: 25px 0 35px;
+    }
 
-        ul li a {
-            display: block;
-            padding: 15px 20px;
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border-radius: 8px;
-        }
+    .report-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
 
-        ul li a:hover {
-            color: #1a5276;
-        }
+    .report-card {
+      background: #f0f4f8;
+      padding: 20px 30px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #2c3e50;
+      text-decoration: none;
+      transition: transform 0.3s ease, background 0.3s ease;
+      min-width: 260px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    }
 
-        /* Responsivo */
-        @media (max-width: 600px) {
-            form {
-                flex-direction: column;
-                gap: 20px;
-            }
+    .report-card:hover {
+      background: linear-gradient(90deg, #7A5FFF, #00C16E);
+      color: white;
+      transform: translateY(-3px);
+    }
 
-            button {
-                width: 100%;
-                margin-left: 0;
-                align-self: stretch;
-            }
-        }
-    </style>
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 40px;
+      text-decoration: none;
+      color: #7A5FFF;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #00C16E;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      label, button {
+        width: 100%;
+        text-align: center;
+      }
+
+      .report-card {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Relatórios Financeiros</h1>
 
-        <form method="GET" action="">
-            <label for="data_inicio">Data Início:
-                <input type="date" name="data_inicio" id="data_inicio" required value="<?= htmlspecialchars($_GET['data_inicio'] ?? '') ?>">
-            </label>
-            <label for="data_fim">Data Fim:
-                <input type="date" name="data_fim" id="data_fim" required value="<?= htmlspecialchars($_GET['data_fim'] ?? '') ?>">
-            </label>
-            <button type="submit">Aplicar Filtro</button>
-        </form>
+  <header>Relatórios Financeiros</header>
 
-        <?php
-        if (isset($_GET['data_inicio']) && isset($_GET['data_fim'])) {
-            $inicio = htmlspecialchars($_GET['data_inicio']);
-            $fim = htmlspecialchars($_GET['data_fim']);
-            echo "<p>Relatórios disponíveis para o período de <strong>$inicio</strong> até <strong>$fim</strong>.</p>";
-        } else {
-            echo "<p>Escolha um intervalo de datas para visualizar os relatórios.</p>";
-        }
-        ?>
+  <div class="container">
+    <h1>Selecione o Período</h1>
 
-        <ul>
-            <li><a href="relatorio_planejamento.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">Relatório de Planejamento Financeiro</a></li>
-            <li><a href="relatorio_contabilidade.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">Relatório de Contabilidade</a></li>
-            <li><a href="relatorio_custos.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">Relatório de Gestão de Custos</a></li>
-            <li><a href="relatorio_investimentos.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">Relatório de Investimentos</a></li>
-            <li><a href="relatorio_riscos.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">Relatório de Riscos</a></li>
-        </ul>
-        <p><a href="dashboard_financeiro.php">← Voltar</a></p>
+    <form method="GET" action="">
+      <label for="data_inicio">Data Início:
+        <input type="date" name="data_inicio" id="data_inicio" required value="<?= htmlspecialchars($_GET['data_inicio'] ?? '') ?>">
+      </label>
+      <label for="data_fim">Data Fim:
+        <input type="date" name="data_fim" id="data_fim" required value="<?= htmlspecialchars($_GET['data_fim'] ?? '') ?>">
+      </label>
+      <button type="submit">Aplicar Filtro</button>
+    </form>
+
+    <?php
+    if (isset($_GET['data_inicio']) && isset($_GET['data_fim'])) {
+        $inicio = htmlspecialchars($_GET['data_inicio']);
+        $fim = htmlspecialchars($_GET['data_fim']);
+        echo "<p class='info'>Relatórios disponíveis para o período de <strong>$inicio</strong> até <strong>$fim</strong>.</p>";
+    } else {
+        echo "<p class='info'>Escolha um intervalo de datas para visualizar os relatórios disponíveis.</p>";
+    }
+    ?>
+
+    <div class="report-list">
+      <a class="report-card" href="relatorio_planejamento.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">📊 Planejamento Financeiro</a>
+      <a class="report-card" href="relatorio_contabilidade.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">📘 Contabilidade</a>
+      <a class="report-card" href="relatorio_custos.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">💰 Gestão de Custos</a>
+      <a class="report-card" href="relatorio_investimentos.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">📈 Investimentos</a>
+      <a class="report-card" href="relatorio_riscos.php?data_inicio=<?= $inicio ?? '' ?>&data_fim=<?= $fim ?? '' ?>">⚠️ Riscos</a>
     </div>
+
+    <a class="back-link" href="dashboard_financeiro.php">← Voltar</a>
+  </div>
+
 </body>
 </html>

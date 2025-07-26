@@ -42,15 +42,19 @@ $ativos = $mysqli->query("SELECT * FROM investimentos WHERE status = 'Ativo' ORD
 <meta charset="UTF-8" />
 <title>Investimentos Ativos</title>
 <style>
-    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #6858b7ff, #1abc9c);
+        margin: 0; 
+        padding: 20px 30px;
+        color: #333; }
     .container { max-width: 1100px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
     h1, h2 { text-align: center; }
     form#cadastro { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
     form#cadastro input { padding: 8px; width: 200px; border: 1px solid #ccc; border-radius: 5px; }
-    form#cadastro button { background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; }
+    form#cadastro button { background: #493d84ff; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; }
     table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
     th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-    th { background: #007bff; color: white; }
+    th { background: #493d84ff; color: white; }
     form.finalizar-form { display: flex; justify-content: center; gap: 5px; }
     form.finalizar-form input[type="number"] { width: 120px; padding: 5px; }
     form.finalizar-form button { background: #28a745; border: none; color: white; cursor: pointer; border-radius: 5px; padding: 6px 12px; }

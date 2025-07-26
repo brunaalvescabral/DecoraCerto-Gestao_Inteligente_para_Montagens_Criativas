@@ -1,9 +1,5 @@
 <?php
 include 'conexao.php';
-
-// Buscar todas as notas fiscais já cadastradas
-$sql_notas = "SELECT * FROM notas_fiscais ORDER BY data_cadastro DESC";
-$result_notas = $conn->query($sql_notas);
 ?>
 
 <!DOCTYPE html>
@@ -14,53 +10,60 @@ $result_notas = $conn->query($sql_notas);
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f7f9fc;
-            margin: 0; padding: 20px 30px;
+            background: linear-gradient(to right, #6858b7ff, #1abc9c);
+            margin: 0; 
+            padding: 20px 30px;
             color: #333;
         }
+
         h2 {
-            color: #004085;
-            border-bottom: 3px solid #007bff;
-            padding-bottom: 6px;
+            color: #fff;
+            text-align: center;
             margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
+
         form {
-            background: white;
+            background: #ffffff;
             padding: 25px 30px;
-            border-radius: 10px;
-            box-shadow: 0 3px 15px rgb(0 0 0 / 0.1);
+            border-radius: 12px;
             max-width: 800px;
-            margin-bottom: 50px;
+            margin: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
+
         label {
             font-weight: 600;
             display: block;
             margin-bottom: 6px;
             margin-top: 20px;
-            color: #212529;
+            color: #333;
         }
+
         input[type="text"],
         input[type="number"],
         textarea {
             width: 100%;
             padding: 10px 12px;
-            border: 1.5px solid #ced4da;
+            border: 1.5px solid #ccc;
             border-radius: 6px;
             font-size: 15px;
-            transition: border-color 0.2s ease;
             box-sizing: border-box;
         }
+
         input[type="text"]:focus,
         input[type="number"]:focus,
         textarea:focus {
-            border-color: #007bff;
+            border-color: #8e44ad;
             outline: none;
         }
+
         textarea {
             resize: vertical;
         }
+
         button {
-            background-color: #007bff;
+            background: linear-gradient(to right, #464390ff, #464390ff);
             color: white;
             border: none;
             padding: 12px 22px;
@@ -68,81 +71,85 @@ $result_notas = $conn->query($sql_notas);
             cursor: pointer;
             font-size: 16px;
             margin-top: 25px;
-            transition: background-color 0.3s ease;
+            transition: opacity 0.3s ease;
         }
+
         button:hover {
-            background-color: #0056b3;
+            opacity: 0.85;
         }
+
+        a {
+            display: inline-block;
+            margin-left: 15px;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            background: #2c3e50;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        a:hover {
+            background: #1a242f;
+        }
+
         #produtos-container {
             margin-top: 10px;
             margin-bottom: 15px;
         }
+
         .produto-row {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             align-items: center;
             margin-bottom: 12px;
-            border: 1px solid #dee2e6;
+            border: 1px solid #ccc;
             padding: 10px 12px;
             border-radius: 6px;
-            background-color: #f8f9fa;
+            background-color: #f1f1f1;
         }
+
         .produto-row input[type="text"],
         .produto-row input[type="number"] {
             flex: 1 1 180px;
             max-width: 250px;
         }
+
         .produto-row span.subtotal {
             min-width: 100px;
             font-weight: 600;
-            color: #212529;
+            color: #2c3e50;
         }
+
         .produto-row button {
             flex: 0 0 auto;
-            background-color: #dc3545;
+            background-color: #e74c3c;
             padding: 6px 12px;
             font-size: 14px;
             border-radius: 6px;
-            margin-left: auto;
-        }
-        .produto-row button:hover {
-            background-color: #b02a37;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgb(0 0 0 / 0.1);
-        }
-        th, td {
-            padding: 14px 18px;
-            border-bottom: 1px solid #dee2e6;
-            text-align: left;
-            font-size: 15px;
-        }
-        th {
-            background-color: #007bff;
             color: white;
-            font-weight: 600;
-            text-transform: uppercase;
         }
-        tr:hover {
-            background-color: #f1f5fb;
+
+        .produto-row button:hover {
+            background-color: #c0392b;
         }
+
         @media (max-width: 720px) {
             .produto-row {
                 flex-direction: column;
                 align-items: flex-start;
             }
+
             .produto-row button {
                 margin-left: 0;
                 margin-top: 10px;
             }
         }
     </style>
+
     <script>
         function calcularTotais() {
             let totalNota = 0;
@@ -175,7 +182,7 @@ $result_notas = $conn->query($sql_notas);
         }
 
         window.onload = () => {
-            adicionarProduto(); // adiciona uma linha inicialmente
+            adicionarProduto();
         };
     </script>
 </head>
@@ -203,39 +210,7 @@ $result_notas = $conn->query($sql_notas);
         <input type="text" name="valor" id="valor_total" readonly required>
 
         <button type="submit">Salvar</button>
+        <a href="dashboard_notas_fiscais.php">Voltar</a>
     </form>
-
-    <hr style="margin: 40px 0; border: 1px solid #dee2e6;">
-
-    <h2>Notas Fiscais Cadastradas</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Número</th>
-                <th>Empresa</th>
-                <th>Valor</th>
-                <th>Frete</th>
-                <th>Data Cadastro</th>
-                <th>Observação</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if ($result_notas->num_rows > 0): ?>
-                <?php while ($nota = $result_notas->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($nota['numero_nota']) ?></td>
-                        <td><?= htmlspecialchars($nota['empresa']) ?></td>
-                        <td>R$ <?= number_format($nota['valor'], 2, ',', '.') ?></td>
-                        <td>R$ <?= number_format($nota['frete'], 2, ',', '.') ?></td>
-                        <td><?= date('d/m/Y H:i', strtotime($nota['data_cadastro'])) ?></td>
-                        <td><?= htmlspecialchars($nota['observacao']) ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr><td colspan="6" style="text-align:center;">Nenhuma nota fiscal cadastrada ainda.</td></tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
 </body>
 </html>

@@ -1,177 +1,302 @@
+
 <?php
-// Conexão com banco
-$mysqli = new mysqli("localhost", "root", "", "sistema");
-if ($mysqli->connect_errno) {
-    die("Erro na conexão: " . $mysqli->connect_error);
+include 'conexao.php';
+
+// Função para calcular o valor atual da receita entre datas
+function calcular_valor_atual($conn, $data_inicio, $data_fim) {
+    $sql = "SELECT SUM(valor) as total FROM receitas WHERE data_receita BETWEEN '$data_inicio' AND '$data_fim'";
+    $res = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($res);
+    return $row['total'] ?? 0;
 }
 
-// Criar tabela metas se não existir
-$mysqli->query("CREATE TABLE IF NOT EXISTS metas_financeiras (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    descricao VARCHAR(255) NOT NULL,
-    valor_alvo DECIMAL(10,2) NOT NULL,
-    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('Pendente','Concluída') DEFAULT 'Pendente'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
-
-// Inserir nova meta
+// Inserir nova meta (se formulário enviado)
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['descricao'])) {
-    $descricao = $_POST['descricao'];
-    $valor_alvo = (float)$_POST['valor_alvo'];
+    $descricao = $conn->real_escape_string($_POST['descricao']);
+    $tipo = $conn->real_escape_string($_POST['tipo']);
+    $valor_meta = floatval($_POST['valor_meta']);
+    $data_inicio = $_POST['data_inicio'];
+    $data_fim = $_POST['data_fim'];
 
-    $stmt = $mysqli->prepare("INSERT INTO metas_financeiras (descricao, valor_alvo) VALUES (?, ?)");
-    $stmt->bind_param("sd", $descricao, $valor_alvo);
-    $stmt->execute();
-    header("Location: planejamento_financeiro.php");
+    $sql_insert = "INSERT INTO meta_financeira (tipo, descricao, valor_meta, data_inicio, data_fim, criado_em) 
+                   VALUES ('$tipo', '$descricao', $valor_meta, '$data_inicio', '$data_fim', NOW())";
+    mysqli_query($conn, $sql_insert);
+    header('Location: planejamento_financeiro.php');
     exit;
 }
 
-// Marcar como concluída
-if (isset($_GET['concluir_id'])) {
-    $id = (int)$_GET['concluir_id'];
-    $mysqli->query("UPDATE metas_financeiras SET status='Concluída' WHERE id=$id");
-    header("Location: planejamento_financeiro.php");
-    exit;
+// Buscar metas existentes ordenadas por data_inicio
+$sql = "SELECT * FROM meta_financeira ORDER BY data_inicio ASC";
+$res = mysqli_query($conn, $sql);
+$metas = [];
+while ($row = mysqli_fetch_assoc($res)) {
+    $metas[] = $row;
 }
 
-// Buscar metas
-$metas = $mysqli->query("SELECT * FROM metas_financeiras ORDER BY data_criacao DESC");
-
-// Buscar totais do sistema
-$totalReceitas = (float)($mysqli->query("SELECT SUM(valor) as total FROM receitas")->fetch_assoc()['total'] ?? 0);
-$totalDespesas = (float)($mysqli->query("SELECT SUM(valor) as total FROM contas_pagar WHERE status='Pendente'")->fetch_assoc()['total'] ?? 0);
-$totalInvestimentos = (float)($mysqli->query("SELECT SUM(valor_investido) as total FROM investimentos WHERE status='Ativo'")->fetch_assoc()['total'] ?? 0);
-
-$valorSugerido = max(0, $totalReceitas - $totalDespesas - $totalInvestimentos);
-
-// Preparar dados das metas
-$metas_array = [];
-foreach ($metas as $meta) {
-    $valor_atual = min($valorSugerido, (float)$meta['valor_alvo']);
-    $metas_array[] = [
-        'id' => $meta['id'],
-        'descricao' => $meta['descricao'],
-        'valor_alvo' => (float)$meta['valor_alvo'],
-        'valor_atual' => $valor_atual,
-        'status' => $meta['status']
-    ];
+// Montar arrays para gráfico (sem arrow functions)
+$metasLabels = [];
+$metasValoresMeta = [];
+$metasValoresAtuais = [];
+foreach ($metas as $m) {
+    $metasLabels[] = $m['descricao'];
+    $metasValoresMeta[] = floatval($m['valor_meta']);
+    $valor_atual_meta = calcular_valor_atual($conn, $m['data_inicio'], $m['data_fim']);
+    $metasValoresAtuais[] = round($valor_atual_meta, 2);
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Planejamento Financeiro</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { font-family: Arial; margin: 0; display: flex; }
-        nav { width: 220px; background: #007bff; padding: 30px 20px; color: #fff; }
-        nav h2 { text-align: center; margin-bottom: 30px; }
-        nav a { display: block; color: white; text-decoration: none; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
-        nav a:hover, nav a.active { background: #0056b3; }
-        main { flex-grow: 1; padding: 30px; background: #f9f9f9; }
-        h1 { margin-top: 0; }
-        form { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
-        form input, form button { padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-        th { background: #007bff; color: white; }
-        .status-pendente { color: #dc3545; font-weight: bold; }
-        .status-concluida { color: #28a745; font-weight: bold; }
-        .btn-concluir { background: #28a745; color: white; padding: 6px 10px; border-radius: 5px; text-decoration: none; }
-        canvas { max-width: 100%; margin-top: 30px; }
-    </style>
+<meta charset="UTF-8" />
+<title>Planejamento Financeiro</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    body {
+        
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #6858b7ff, #1abc9c);
+        margin: 0; 
+        padding: 20px 30px;
+        color: #333;
+        
+    }
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        background: #ffffff; /* sem transparência */
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+    }
+    h1, h2 {
+        color: #4a55a2;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    form {
+        margin-bottom: 40px;
+    }
+    label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 6px;
+        margin-top: 16px;
+        color: #222;
+    }
+    input[type="text"], input[type="number"], input[type="date"], select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1.5px solid #b8c0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
+        border-color: #4a55a2;
+        outline: none;
+    }
+    .grid-duas-colunas {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    button {
+        background-color: #4a55a2;
+        color: white;
+        border: none;
+        padding: 14px 22px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 17px;
+        margin-top: 25px;
+        width: 100%;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #373e7c;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 30px;
+        font-size: 15px;
+    }
+    th, td {
+        padding: 14px 18px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #4a55a2;
+        color: white;
+        font-weight: 600;
+    }
+    tr:hover {
+        background-color: #f1f3fa;
+    }
+    .progress-container {
+        background: #e0e3f7;
+        border-radius: 15px;
+        height: 20px;
+        margin-top: 6px;
+        width: 100%;
+        overflow: hidden;
+    }
+    .progress-bar {
+        height: 100%;
+        background-color: #4a55a2;
+        width: 0%;
+        transition: width 0.8s ease;
+    }
+    .center-text {
+        text-align: center;
+    }
+    .btn-graph {
+        background-color: #009688;
+        margin-top: 20px;
+        width: auto;
+        padding: 10px 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        display: inline-block;
+    }
+    .btn-graph:hover {
+        background-color: #00796b;
+    }
+    @media(max-width: 600px) {
+        .grid-duas-colunas {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 </head>
 <body>
 
-<nav>
-    <p><a href="dashboard_financeiro.php">← Voltar</a></p>
-    <h2>Planejamento</h2>
-    <a href="#" onclick="mostrar('metas', this)" class="active">Metas</a>
-    <a href="#" onclick="mostrar('grafico', this)">Gráfico</a>
-</nav>
+<div class="container">
+    <a class="back-link" href="dashboard_financeiro.php">← Voltar</a>
+    <h1>Planejamento Financeiro</h1>
 
-<main>
-    <section id="metas">
-        <h1>Metas Financeiras</h1>
-        <form method="POST">
-            <input type="text" name="descricao" placeholder="Descrição da meta" required>
-            <input type="number" step="0.01" name="valor_alvo" placeholder="Valor alvo (R$)" value="<?= number_format($valorSugerido, 2, '.', '') ?>" required>
-            <button type="submit">Cadastrar</button>
-        </form>
-        <table>
-            <thead>
-                <tr><th>Descrição</th><th>Valor Alvo</th><th>Valor Atual</th><th>Status</th><th>Ação</th></tr>
-            </thead>
-            <tbody>
-                <?php foreach ($metas_array as $meta): ?>
-                    <tr>
-                        <td><?= $meta['descricao'] ?></td>
-                        <td>R$ <?= number_format($meta['valor_alvo'], 2, ',', '.') ?></td>
-                        <td>R$ <?= number_format($meta['valor_atual'], 2, ',', '.') ?></td>
-                        <td class="status-<?= strtolower($meta['status']) ?>"><?= $meta['status'] ?></td>
-                        <td>
-                            <?php if ($meta['status'] === 'Pendente'): ?>
-                                <a class="btn-concluir" href="?concluir_id=<?= $meta['id'] ?>">Concluir</a>
-                            <?php else: ?>-
-                            <?php endif; ?>
-                        </td>
-                    </tr>
+    <form method="POST" action="planejamento_financeiro.php" id="formMeta">
+        <label for="tipo">Tipo de Meta</label>
+        <select name="tipo" id="tipo" required>
+            <option value="" disabled selected>Selecione o tipo</option>
+            <option value="Semanal">Semanal</option>
+            <option value="Mensal">Mensal</option>
+            <option value="Trimestral">Trimestral</option>
+            <option value="Anual">Anual</option>
+        </select>
+
+        <label for="descricao">Descrição da Meta</label>
+        <input type="text" name="descricao" id="descricao" required placeholder="Descreva a meta">
+
+        <div class="grid-duas-colunas">
+            <div>
+                <label for="data_inicio">Data Inicial</label>
+                <input type="date" name="data_inicio" id="data_inicio" required>
+            </div>
+            <div>
+                <label for="data_fim">Data Final</label>
+                <input type="date" name="data_fim" id="data_fim" required>
+            </div>
+        </div>
+
+        <label for="valor_meta">Valor da Meta (R$)</label>
+        <input type="number" name="valor_meta" id="valor_meta" min="0" step="0.01" required>
+
+        <button type="submit">Cadastrar Meta</button>
+    </form>
+
+    <button class="btn-graph" onclick="document.getElementById('graficoContainer').scrollIntoView({behavior:'smooth'});">
+        Ver Gráfico de Metas
+    </button>
+
+    <h2>Lista de Metas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Período</th>
+                <th>Valor Meta (R$)</th>
+                <th>Valor Atual (R$)</th>
+                <th>Progresso</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (count($metas) === 0): ?>
+                <tr><td colspan="6" class="center-text">Nenhuma meta cadastrada.</td></tr>
+            <?php else: ?>
+                <?php foreach ($metas as $m): 
+                    $valor_atual = calcular_valor_atual($conn, $m['data_inicio'], $m['data_fim']);
+                    $percentual = ($valor_atual / $m['valor_meta']) * 100;
+                    if ($percentual > 100) $percentual = 100;
+                ?>
+                <tr>
+                    <td><?= htmlspecialchars($m['descricao']) ?></td>
+                    <td><?= htmlspecialchars($m['tipo']) ?></td>
+                    <td><?= date('d/m/Y', strtotime($m['data_inicio'])) ?> a <?= date('d/m/Y', strtotime($m['data_fim'])) ?></td>
+                    <td>R$ <?= number_format($m['valor_meta'], 2, ',', '.') ?></td>
+                    <td>R$ <?= number_format($valor_atual, 2, ',', '.') ?></td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: <?= $percentual ?>%;"></div>
+                        </div>
+                        <small><?= round($percentual, 2) ?>%</small>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
-    <section id="grafico" style="display:none;">
-        <h1>Gráfico de Metas</h1>
-        <canvas id="graficoMetas"></canvas>
-    </section>
-</main>
+    <div id="graficoContainer" style="margin-top: 60px;">
+        <h2>Gráfico de Metas</h2>
+        <canvas id="graficoMetas" height="150"></canvas>
+    </div>
+</div>
 
 <script>
-function mostrar(id, el) {
-    document.getElementById('metas').style.display = 'none';
-    document.getElementById('grafico').style.display = 'none';
-    document.getElementById(id).style.display = 'block';
-    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-    el.classList.add('active');
-}
+    const metasLabels = <?= json_encode($metasLabels) ?>;
+    const metasValoresMeta = <?= json_encode($metasValoresMeta) ?>;
+    const metasValoresAtuais = <?= json_encode($metasValoresAtuais) ?>;
 
-const labels = <?= json_encode(array_column($metas_array, 'descricao')) ?>;
-const valoresAlvo = <?= json_encode(array_column($metas_array, 'valor_alvo')) ?>;
-const valoresAtuais = <?= json_encode(array_column($metas_array, 'valor_atual')) ?>;
-
-new Chart(document.getElementById('graficoMetas').getContext('2d'), {
-    type: 'bar',
-    data: {
-        labels: labels,
-        datasets: [
-            {
-                label: 'Valor Alvo',
-                data: valoresAlvo,
-                backgroundColor: '#007bff'
-            },
-            {
-                label: 'Valor Atual',
-                data: valoresAtuais,
-                backgroundColor: '#28a745'
-            }
-        ]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    callback: function(value) {
-                        return 'R$ ' + value.toLocaleString('pt-BR');
+    const ctx = document.getElementById('graficoMetas').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: metasLabels,
+            datasets: [
+                {
+                    label: 'Valor da Meta (R$)',
+                    data: metasValoresMeta,
+                    backgroundColor: 'rgba(106, 120, 223, 0.8)',
+                },
+                {
+                    label: 'Valor Atual (R$)',
+                    data: metasValoresAtuais,
+                    backgroundColor: 'rgba(35, 235, 215, 0.8)',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'R$ ' + value.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                        }
                     }
                 }
+            },
+            plugins: {
+                legend: { position: 'bottom' }
             }
         }
-    }
-});
+    });
 </script>
 
 </body>

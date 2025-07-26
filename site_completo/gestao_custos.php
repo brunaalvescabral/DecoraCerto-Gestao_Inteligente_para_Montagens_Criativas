@@ -40,7 +40,11 @@ while ($row = $res2->fetch_assoc()) {
     <title>Gestão de Custos</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #6858b7ff, #1abc9c);
+        margin: 0; 
+        padding: 20px 30px;
+        color: #333;}
         .container { background: white; max-width: 1100px; margin: auto; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
         h1 { text-align: center; }
         .filtros { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
@@ -49,7 +53,7 @@ while ($row = $res2->fetch_assoc()) {
         .graficos { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 30px; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background: #007bff; color: white; }
+        th { background: #406b9aff; color: white; }
         .botoes-exportar { text-align: center; margin-top: 20px; }
         .botoes-exportar a {
             padding: 10px 20px; margin: 5px; background: #28a745; color: white; text-decoration: none; border-radius: 5px;

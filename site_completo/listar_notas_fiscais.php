@@ -11,63 +11,100 @@ $result = $conn->query("SELECT id, numero_nota, data_cadastro FROM notas_fiscais
     <title>Dashboard - Notas Fiscais</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 40px;
-            background-color: #f4f4f4;
-        }
-        h2 {
+            background: linear-gradient(to right, #705fc4ff, #1abc9c);
             color: #333;
         }
+
         .topo {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+            flex: 1;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
         .botao {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 15px;
+            background: #2c3e50;
+            color: #fff;
+            padding: 10px 20px;
             border: none;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
+            transition: background 0.3s ease;
         }
+
         .botao:hover {
-            background-color: #218838;
+            background-color: #1a242f;
         }
+
         table {
             width: 100%;
-            background-color: white;
+            background-color: #ffffff;
             border-collapse: collapse;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
         th, td {
-            padding: 12px;
+            padding: 14px 18px;
             text-align: left;
             border-bottom: 1px solid #ccc;
+            font-size: 15px;
         }
+
         th {
-            background-color: #007bff;
+            background: #8e44ad;
             color: white;
+            text-transform: uppercase;
         }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
         a.acao {
-            background-color: #007bff;
+            background: linear-gradient(to right, #8e44ad, #1abc9c);
             color: white;
-            padding: 6px 10px;
+            padding: 8px 14px;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: opacity 0.3s ease;
         }
+
         a.acao:hover {
-            background-color: #0056b3;
+            opacity: 0.85;
+        }
+
+        p {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
 <div class="topo">
-    <h2>Notas Fiscais</h2>
     <a href="dashboard_catalogo_gerente.php" class="botao">← Voltar</a>
+    <h2>Notas Fiscais</h2>
+    <div style="width: 120px;"></div> <!-- espaço à direita p/ alinhar -->
 </div>
 
 <?php if ($result->num_rows === 0): ?>

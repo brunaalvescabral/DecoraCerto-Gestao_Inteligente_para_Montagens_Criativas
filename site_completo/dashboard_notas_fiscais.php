@@ -1,140 +1,186 @@
-<?php
-// dashboard_notas_fiscais.php
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <title>Dashboard - Notas Fiscais</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f9f9f9;
-            color: #333;
-        }
-        header {
-            background: #0069d9;
-            color: white;
-            padding: 15px 30px;
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-        .container {
-            display: flex;
-            height: calc(100vh - 60px);
-        }
-        nav {
-            width: 220px;
-            background: #007bff;
-            padding-top: 20px;
-            box-shadow: 2px 0 6px rgba(0,0,0,0.1);
-        }
-        nav a {
-            display: block;
-            padding: 15px 20px;
-            color: white;
-            text-decoration: none;
-            border-left: 4px solid transparent;
-            transition: background 0.3s, border-left-color 0.3s;
-            font-weight: 600;
-        }
-        nav a:hover {
-            background: #0056b3;
-            border-left-color: #ffc107;
-        }
-        nav a.active {
-            background: #004085;
-            border-left-color: #ffc107;
-            font-weight: 700;
-        }
-        main {
-            flex-grow: 1;
-            padding: 40px 50px;
-            overflow-y: auto;
-            background: white;
-        }
-        main h1 {
-            margin-top: 0;
-            color: #004085;
-        }
-        main p {
-            font-size: 18px;
-            max-width: 700px;
-            line-height: 1.4;
-        }
-        .quick-links {
-            margin-top: 40px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .quick-links a {
-            background: #007bff;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 8px;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 3px 6px rgba(0,123,255,0.4);
-            transition: background 0.3s ease;
-        }
-        .quick-links a:hover {
-            background: #0056b3;
-        }
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            nav {
-                width: 100%;
-                display: flex;
-                overflow-x: auto;
-                padding: 0;
-            }
-            nav a {
-                flex: 1 0 auto;
-                text-align: center;
-                border-left: none;
-                border-bottom: 4px solid transparent;
-            }
-            nav a.active {
-                border-left: none;
-                border-bottom-color: #ffc107;
-            }
-            main {
-                padding: 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Dashboard - Notas Fiscais</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #2c3e50;
+    }
+
+    header {
+      background: linear-gradient(90deg, #7A5FFF, #00C16E);
+      color: #fff;
+      padding: 25px 40px;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(122, 95, 255, 0.3);
+    }
+
+    .dashboard-container {
+      display: flex;
+      min-height: calc(100vh - 90px);
+    }
+
+    nav {
+      width: 250px;
+      background-color: #1e1a33;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 0;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    nav a {
+      padding: 18px 30px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background-color: #302a52;
+      border-left: 4px solid #ffd54f;
+      color: #ffd54f;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 50px 60px;
+      background-color: #f0f4f8;
+    }
+
+    main h1 {
+      font-size: 34px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    main p {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 40px;
+      max-width: 700px;
+    }
+
+    .cards {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .cards a {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      text-align: center;
+      text-decoration: none;
+      color: #2c3e50;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+      flex: 1 1 250px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cards a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #7A5FFF, #00C16E);
+      z-index: 0;
+      transition: left 0.4s ease;
+    }
+
+    .cards a:hover::before {
+      left: 0;
+    }
+
+    .cards a span {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-container {
+        flex-direction: column;
+      }
+
+      nav {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        padding: 10px 0;
+      }
+
+      nav a {
+        padding: 12px 10px;
+        font-size: 15px;
+        text-align: center;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+      }
+
+      nav a.active {
+        border-left: none;
+        border-bottom: 3px solid #ffd54f;
+        background-color: transparent;
+        color: #ffd54f;
+      }
+
+      main {
+        padding: 30px 20px;
+      }
+
+      .cards {
+        gap: 20px;
+      }
+
+      .cards a {
+        padding: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        Cadastro de Notas Fiscais
-    </header>
+  <header>
+    Cadastro de Notas Fiscais
+  </header>
 
-    <div class="container">
-        <nav>
-            <a href="financeiro_cadastrar_nota.php">Cadastrar Nota Fiscal</a>
-            <a href="financeiro_listar_notas.php">Listar Notas Fiscais</a>
-        </nav>
+  <div class="dashboard-container">
+    <nav>
+      <a href="financeiro_cadastrar_nota.php">Cadastrar Nota</a>
+      <a href="financeiro_listar_notas.php" class="active">Listar Notas</a>
+      <a href="dashboard_financeiro.php">Voltar</a>
+    </nav>
 
-        <main>
-            <h1>Bem-vindo ao Módulo de Notas Fiscais</h1>
-            <p>Gerencie todas as suas notas fiscais de forma simples e rápida. Utilize as opções do menu para cadastrar novas notas, visualizar a lista de notas já cadastradas e acessar relatórios detalhados.</p>
+    <main>
+      <h1>Bem-vindo ao Módulo de Notas Fiscais</h1>
+      <p>Utilize os atalhos abaixo para gerenciar suas notas fiscais com agilidade e eficiência.</p>
 
-            <div class="quick-links">
-                <a href="financeiro_cadastrar_nota.php">Nova Nota Fiscal</a>
-                <a href="financeiro_listar_notas.php">Visualizar Notas</a>
-            </div>
-        </main>
-    </div>
+      <div class="cards">
+        <a href="financeiro_cadastrar_nota.php"><span>📄 Cadastrar Nota Fiscal</span></a>
+        <a href="financeiro_listar_notas.php"><span>📁 Visualizar Notas Fiscais</span></a>
+      </div>
+    </main>
+  </div>
 </body>
 </html>

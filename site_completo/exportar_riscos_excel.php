@@ -10,12 +10,12 @@ $query = "SELECT * FROM riscos WHERE data_registro BETWEEN '$data_inicio' AND '$
 $result = mysqli_query($conn, $query);
 
 echo "<table border='1'>";
-echo "<tr><th>Descrição</th><th>Nível</th><th>Data</th></tr>";
+echo "<tr><th>Descrição</th><th>Impacto Estimado</th><th>Data</th></tr>";
 
 while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>
             <td>{$row['descricao']}</td>
-            <td>{$row['nivel']}</td>
+            <td>{$row['impacto_estimado']}</td>
             <td>" . date('d/m/Y', strtotime($row['data_registro'])) . "</td>
           </tr>";
 }

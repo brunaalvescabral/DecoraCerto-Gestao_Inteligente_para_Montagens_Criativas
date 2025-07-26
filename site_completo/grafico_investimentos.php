@@ -53,15 +53,19 @@ $retornado = array_column($periodo, 'retornado');
 <title>Gráfico de Investimentos</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #6858b7ff, #1abc9c);
+        margin: 0; 
+        padding: 20px 30px;
+        color: #333; }
     .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
     h1 { text-align: center; margin-bottom: 30px; }
     form { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
     form label { display: flex; flex-direction: column; font-weight: bold; }
     form input[type="date"] { padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
-    form button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    form button { padding: 10px 20px; background: #3a2f70ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
     canvas { max-width: 100%; }
-    a { display: inline-block; margin-top: 15px; color: #007bff; text-decoration: none; }
+    a { display: inline-block; margin-top: 15px; color: #191338ff; text-decoration: none; }
     a:hover { text-decoration: underline; }
 </style>
 </head>

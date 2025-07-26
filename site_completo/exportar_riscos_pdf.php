@@ -13,12 +13,12 @@ $result = mysqli_query($conn, $query);
 $html = '<h2>Relatório de Gestão de Riscos</h2>';
 $html .= "<p>Período: $data_inicio até $data_fim</p>";
 $html .= '<table border="1" cellspacing="0" cellpadding="5">';
-$html .= '<tr><th>Descrição</th><th>Nível</th><th>Data</th></tr>';
+$html .= '<tr><th>Descrição</th><th>Impacto Estimado</th><th>Data</th></tr>';
 
 while ($row = mysqli_fetch_assoc($result)) {
     $html .= "<tr>
                 <td>{$row['descricao']}</td>
-                <td>{$row['nivel']}</td>
+                <td>{$row['impacto_estimado']}</td>
                 <td>" . date('d/m/Y', strtotime($row['data_registro'])) . "</td>
               </tr>";
 }

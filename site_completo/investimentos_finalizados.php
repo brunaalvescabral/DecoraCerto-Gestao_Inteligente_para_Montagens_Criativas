@@ -13,12 +13,16 @@ $finalizados = $mysqli->query("SELECT * FROM investimentos WHERE status = 'Final
 <meta charset="UTF-8" />
 <title>Investimentos Finalizados</title>
 <style>
-    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #6858b7ff, #1abc9c);
+        margin: 0; 
+        padding: 20px 30px;
+        color: #333; }
     .container { max-width: 1100px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
     h1, h2 { text-align: center; }
     table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
     th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
-    th { background: #007bff; color: white; }
+    th { background: #493d84ff; color: white; }
     a { display: inline-block; margin-top: 10px; color: #007bff; text-decoration: none; }
     a:hover { text-decoration: underline; }
 </style>

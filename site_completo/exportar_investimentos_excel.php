@@ -14,7 +14,7 @@ echo "<tr><th>Descrição</th><th>Valor Investido</th><th>Valor Retornado</th><t
 
 while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>
-            <td>{$row['descricao']}</td>
+            <td>{$row['nome']}</td>
             <td>R$ " . number_format($row['valor_investido'], 2, ',', '.') . "</td>
             <td>R$ " . number_format($row['valor_real'], 2, ',', '.') . "</td>
             <td>" . date('d/m/Y', strtotime($row['data_investimento'])) . "</td>

@@ -26,47 +26,153 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     <meta charset="UTF-8" />
     <title>Cadastrar Receita Manualmente</title>
     <style>
-        body { font-family: Arial, sans-serif; background:#f0f0f0; margin:0; padding:20px;}
-        .container { max-width: 600px; margin: auto; background:white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc;}
-        label { display: block; margin-top: 15px;}
-        input[type=text], input[type=number], input[type=date] {
-            width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
         }
+
+        header {
+            background: linear-gradient(90deg, #007bff, #00b894);
+            color: #fff;
+            padding: 25px 40px;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .container {
+            max-width: 600px;
+            background: white;
+            margin: 50px auto;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
         button {
-            margin-top: 20px; padding: 10px 15px; border:none; background:#28a745; color:white; border-radius: 5px; cursor:pointer;
+            margin-top: 30px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: linear-gradient(90deg, #00b894, #007bff);
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
-        button:hover { background:#218838; }
-        .msg-sucesso { background: #d4edda; color: #155724; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
-        .msg-erro { background: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
-        a { text-decoration:none; color:#007bff; }
-        a:hover { text-decoration: underline; }
+
+        button:hover {
+            background: linear-gradient(90deg, #00a07c, #005fcc);
+        }
+
+        .msg-sucesso, .msg-erro {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .msg-sucesso {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+
+        .msg-erro {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+
+        a.voltar {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s ease;
+        }
+
+        a.voltar:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 30px 15px;
+            }
+
+            button {
+                font-size: 15px;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <a href="dashboard_receitas.php">← Voltar</a>
-    <h1>Cadastrar Receita Manualmente</h1>
+    <header>Gestão de Receitas</header>
 
-    <?php if (isset($_GET['success'])): ?>
-        <div class="msg-sucesso">Receita cadastrada com sucesso!</div>
-    <?php endif; ?>
+    <div class="container">
+        
+        <h1>Cadastrar Receita Manual</h1>
 
-    <?php if (!empty($error)): ?>
-        <div class="msg-erro"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
+        <?php if (isset($_GET['success'])): ?>
+            <div class="msg-sucesso">Receita cadastrada com sucesso!</div>
+        <?php endif; ?>
 
-    <form method="POST" action="">
-        <label for="descricao">Descrição:</label>
-        <input type="text" id="descricao" name="descricao" required>
+        <?php if (!empty($error)): ?>
+            <div class="msg-erro"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
 
-        <label for="valor">Valor (R$):</label>
-        <input type="text" id="valor" name="valor" required pattern="^\d+([,\.]\d{1,2})?$" title="Digite um valor válido">
+        <form method="POST" action="">
+            <label for="descricao">Descrição:</label>
+            <input type="text" id="descricao" name="descricao" required>
 
-        <label for="data_receita">Data da Receita:</label>
-        <input type="date" id="data_receita" name="data_receita" required>
+            <label for="valor">Valor (R$):</label>
+            <input type="text" id="valor" name="valor" required pattern="^\d+([,\.]\d{1,2})?$" title="Digite um valor válido">
 
-        <button type="submit">Cadastrar Receita</button>
-    </form>
-</div>
+            <label for="data_receita">Data da Receita:</label>
+            <input type="date" id="data_receita" name="data_receita" required>
+
+            <button type="submit">Cadastrar Receita</button>
+
+        </form>
+        <button onclick="location.href='dashboard_receitas.php'" class="voltar">← Voltar</button>
+    </div>
+    
 </body>
 </html>
+

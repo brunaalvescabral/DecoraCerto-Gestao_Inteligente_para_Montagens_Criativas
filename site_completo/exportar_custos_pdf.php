@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
-include '../conexao.php';
+include 'conexao.php';
 
 $data_inicio = $_GET['inicio'] ?? date('Y-m-01');
 $data_fim = $_GET['fim'] ?? date('Y-m-t');

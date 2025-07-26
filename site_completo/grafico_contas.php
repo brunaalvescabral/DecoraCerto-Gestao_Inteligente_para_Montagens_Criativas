@@ -6,7 +6,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0/dist/chartjs-plugin-annotation.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6858b7ff, #1abc9c);
+            margin: 0;
+            padding: 20px 30px;
+            color: #333; }
         .container { max-width: 100%; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
         h2 { text-align: center; margin-bottom: 30px; }
         .graficos {
@@ -33,9 +37,10 @@
             display: flex;
             flex-direction: column;
         }
-        .filtro-form input, .filtro-form select, .filtro-form button {
+        .filtro-form input, .filtro-form select{
             padding: 8px; border-radius: 5px; border: 1px solid #ccc;
         }
+        .filtro-form button {background:  #464390ff; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;}
     </style>
 </head>
 <body>
