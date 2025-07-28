@@ -26,7 +26,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
     }
 
     $stmt = $conn->prepare("UPDATE notas_fiscais SET numero_nota=?, empresa=?, produtos=?, valor=?, observacao=? WHERE id=?");
-    $stmt->bind_param("sssdsn", $numero_nota, $empresa, $descricao_produtos, $valor, $observacao, $id);
+    $stmt->bind_param("sssdsi", $numero_nota, $empresa, $descricao_produtos, $valor, $observacao, $id);
 
     if ($stmt->execute()) {
         echo "Nota atualizada com sucesso. <a href='financeiro_listar_notas.php'>Voltar</a>";
