@@ -42,7 +42,7 @@ O sistema foi criado para:
 
 - 🗂️ [GitHub do Projeto](https://github.com/brunaalvescabral/DecoraCerto-Gestao_Inteligente_para_Montagens_Criativas.git)
 - 📌 [Quadro no Trello](https://trello.com/invite/b/681fe46994c6170f6882711a/ATTId8efd6860cca851d0c686e57ee2db15071BB7BFB/projeto-engenharia-de-software)
-
+- 📌[Prototipogem no Canva](https://www.canva.com/design/DAGu32DscF0/8SMHO7sel8K7VwDb70AfkQ/view?utm_content=DAGu32DscF0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9944b127a6)
 ---
 
 ## 👨‍💻 Equipe do Projeto
