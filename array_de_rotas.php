@@ -1,0 +1,66 @@
+<?php
+$rotas = [
+    "home" => ["home@titulo", "home@carousel","home@modal_card", "home@main_cards","autenticacao@login","autenticacao@cadastro","autenticacao@recuperar_senha","autenticacao@verificar_codigo","autenticacao@resetar_senha","home@faixa-roxa", "home@funcionalidades", "home@conteudo-usuario", "home@beneficios"],
+    'caixa_alugueis_atendidos' => [],
+    'caixa_orcamentos_pendentes' => [],
+    'caixa_visualizar_orcamento' => [],
+    'confirmar_pagamento' => [],
+    'listar_kits' => [],
+    'adicionar_kit' => [],
+    'visualizar_estoque' => [],
+    'gerar_termo_compromisso' => [],
+    'selecionar_cliente' => [],
+    'selecionar_kit' => [],
+    'selecionar_pagamento' => [],
+    'menu_principal' => [],
+    'listar_clientes' => [],
+    // Dashboard Financeiro
+    'dashboard_financeiro' => [],
+    'dashboard_gerente' => [],
+    'menu_atendente' => [],
+    'dashboard_caixa' => [],
+    // Relatórios Financeiros
+    'relatorios_financeiros' => [],
+    'relatorio_contabilidade' => [],
+    'relatorio_custos' => [],
+    'relatorio_investimentos' => [],
+    'relatorio_planejamento' => [],
+    'relatorio_riscos' => [],
+    // Receitas e Despesas
+    'dashboard_receitas' => [],
+    'dashboard_contas_pagar' => [],
+    'cadastro_receita' => [],
+    'lista_receitas' => [],
+    'listar_contas' => [],
+    // Planejamento e Gestão
+    'planejamento_financeiro' => [],
+    'gestao_riscos' => [],
+    'gestao_custos' => [],
+    'contabilidade' => [],
+    // Investimentos
+    'investimentos_dashboard' => [],
+    'investimentos' => [],
+    'investimentos_finalizados' => [],
+    // Dashboards específicos
+    'dashboard_alugueis' => [],
+    'dashboard_cadastro_cliente' => [],
+    'dashboard_catalogo_gerente' => [],
+    'dashboard_notas_fiscais' => [],
+    // === ROTAS DE AUTENTICAÇÃO ===
+    'login' => [],
+    'processar_login' => [],
+    'logout' => [],
+    'acesso_negado' => [],
+    // === ROTAS PARA CLIENTES ===
+    'login_cliente' => [],
+    'processar_login_cliente' => [],
+    'area_cliente' => [],
+    'catalogo_cliente' => [],
+    'meus_alugueis' => [],
+    'minhas_prereservas' => [],
+    'perfil_cliente' => [],
+    'fazer_prereserva' => [],
+    'alugar_kit_cliente' => [],
+    'registro_cliente' => [],
+    'logout_cliente' => []
+];

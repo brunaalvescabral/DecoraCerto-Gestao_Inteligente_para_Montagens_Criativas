@@ -1,0 +1,28 @@
+{
+    "pages": [
+        {
+            "name": "home",
+            "js": [
+                "carousel.js",
+                "autenticacao.js",
+                "funcionalidades.js",
+                "Todos os js que são instanciados no carregador js são carregados aqui (tem que ser importado no carregador js) [home]"
+            ],
+            "css": [
+                "styles/home.css"
+            ]
+        },
+        {
+            "name": "about",
+            "js": [
+                "decora-certo.js",
+                "Todos os js que são instanciados no carregador js são carregados aqui (tem que ser importado no carregador js) [about]",
+                "separar cada um por virgula"
+            ],
+            "css": [
+                "styles/about.css"
+
+            ]
+        }
+    ]
+}

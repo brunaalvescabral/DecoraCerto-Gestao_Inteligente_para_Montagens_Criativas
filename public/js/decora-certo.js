@@ -1,80 +1,120 @@
-// --- Toggle Tema Dark / Light ---
-function toggleDarkMode() {
-  const body = document.body;
-  const icon = document.getElementById('themeToggleIcon');
-
-  // Alterna a classe dark-mode no body
-  const isDark = body.classList.toggle('dark-mode');
-
-  // Atualiza o ícone conforme o tema atual
-  icon.src = isDark
-    ? '../public/assets/icons/ligth.png'   // tema escuro → mostra sol (modo claro disponível)
-    : '../public/assets/icons/dark.png';   // tema claro → mostra lua (modo escuro disponível)
-
-  // Salva a preferência no localStorage
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-}
-
-// Aplica o tema salvo ao carregar a página
-function applySavedTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  const icon = document.getElementById('themeToggleIcon');
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    icon.src = '../public/assets/icons/ligth.png';
-  } else {
-    icon.src = '../public/assets/icons/dark.png';
-  }
-}
-// --- Ajusta padding-top do main para compensar altura do navbar ---
-function ajustarPaddingMain() {
-  const navbar = document.getElementById('navbar');
-  const main = document.getElementById('main-content');
-  if (navbar && main) {
-    const alturaNavbar = navbar.offsetHeight;
-    main.style.paddingTop = alturaNavbar + 'px';
-  }
-}
-// --- Carrossel com scroll horizontal e botões ---
-function initCarouselScroll(containerId, leftBtnId, rightBtnId) {
-  const container = document.getElementById(containerId);
-  const btnLeft = document.getElementById(leftBtnId);
-  const btnRight = document.getElementById(rightBtnId);
-
-  let velScroll = 30;
-  let currentScroll = 0; // valor numérico da % de scroll
-  const maxScroll = 2;    // limite à esquerda
-  const minScroll = -48;  // limite à direita
-
-  // Aplica posição inicial
-  container.style.transform = `translateX(${currentScroll}%)`;
-
-  // Acessibilidade nas setas
-  document.querySelectorAll('.carousel-arrow').forEach(arrow => {
-    arrow.setAttribute('aria-label', arrow.classList.contains('left-arrow') ? 'Slide anterior' : 'Próximo slide');
-  });
-  function updateToggles() {
-    btnLeft?.classList.toggle('d-none', currentScroll >= maxScroll);
-    btnRight?.classList.toggle('d-none', currentScroll <= minScroll);
-  }
-  updateToggles();
-  btnLeft?.addEventListener('click', () => {
-    currentScroll = Math.min(currentScroll + velScroll, maxScroll);
-    container.style.transform = `translateX(${currentScroll}%)`;
-    updateToggles();
-  });
-  btnRight?.addEventListener('click', () => {
-    currentScroll = Math.max(currentScroll - velScroll, minScroll);
-    container.style.transform = `translateX(${currentScroll}%)`;
-    updateToggles();
-  });
-}
-
-// --- Inicializações ao carregar a página ---
+import { navegarPara } from "./scripts_auxiliares/request.js";
 window.addEventListener('DOMContentLoaded', () => {
-  applySavedTheme();
   ajustarPaddingMain();
-  initCarouselScroll('carousel-container', 'carousel-left', 'carousel-right');
+  navegarPara('home');
+  Opcao_expansiva_de_sidebar();
 });
 window.addEventListener('resize', ajustarPaddingMain);
-
+// --- Ajusta padding-top do main para compensar altura do navbar ---
+function ajustarPaddingMain() {
+  const navbar = document.getElementById('grid-header');
+  const main = document.getElementById('grid-main');
+  if (navbar && main) {
+    const alturaNavbar = navbar.offsetHeight;
+    main.style.paddingTop = (alturaNavbar + 20) + 'px';
+  }
+}
+// ========================================================================================================
+// Função para toggle da sidebar mobile
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebarMobile');
+  sidebar.classList.toggle('show');
+}
+// Função para fechar sidebar mobile
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebarMobile');
+  sidebar.classList.remove('show');
+}
+// Navegação ativa na sidebar
+function manipularSidebar() {
+  const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+  navLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+}
+// Fechar sidebar ao redimensionar para desktop
+window.addEventListener('resize', function () {
+  if (window.innerWidth >= 992) {
+    closeSidebar();
+  }
+});
+// =============================================================================================================
+// opção de menu expansivo verticalmente
+function Opcao_expansiva_de_sidebar() {
+  const menuItems = document.querySelectorAll('.menu-item.has-submenu');
+  menuItems.forEach(item => {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const menuType = this.getAttribute('data-menu');
+      const submenu = document.getElementById(`submenu-${menuType}`);
+      const isExpanded = this.classList.contains('expanded');
+      // Fecha todos os outros submenus
+      menuItems.forEach(otherItem => {
+        if (otherItem !== this) {
+          otherItem.classList.remove('expanded', 'active');
+          const otherMenuType = otherItem.getAttribute('data-menu');
+          const otherSubmenu = document.getElementById(`submenu-${otherMenuType}`);
+          if (otherSubmenu) {
+            otherSubmenu.classList.remove('expanded');
+          }
+        }
+      });
+      // Toggle do submenu atual
+      if (isExpanded) {
+        this.classList.remove('expanded', 'active');
+        submenu.classList.remove('expanded');
+      } else {
+        this.classList.add('expanded', 'active');
+        submenu.classList.add('expanded');
+      }
+    });
+  });
+  // Efeito de hover nos itens do menu
+  document.querySelectorAll('.menu-item:not(.has-submenu)').forEach(item => {
+    item.addEventListener('mouseenter', function () {
+      const icon = this.querySelector('.bi:first-child');
+      if (icon) {
+        icon.style.transform = 'scale(1.1)';
+        icon.style.color = '#667eea';
+      }
+    });
+    item.addEventListener('mouseleave', function () {
+      const icon = this.querySelector('.bi:first-child');
+      if (icon) {
+        icon.style.transform = 'scale(1)';
+        icon.style.color = '';
+      }
+    });
+  });
+  // Efeito de hover nos itens do submenu
+  document.querySelectorAll('.submenu-item').forEach(item => {
+    item.addEventListener('mouseenter', function () {
+      const icon = this.querySelector('.bi');
+      if (icon) {
+        icon.style.transform = 'scale(1.1)';
+      }
+    });
+    item.addEventListener('mouseleave', function () {
+      const icon = this.querySelector('.bi');
+      if (icon) {
+        icon.style.transform = 'scale(1)';
+      }
+    });
+  });
+}
